@@ -12,4 +12,4 @@ For simplicity, **in this projet all candles has the fixed _length_ (duration) o
 
 ## Use Case
 
-![Very simple Use-Case](https://github.com/madamadore/trading-demo/blob/master/images/use-case.png?raw=true)
+![Very simple Use-Case](https://github.com/madamadore/trading-demo/blob/master/images/use-case.jpg?raw=true)
