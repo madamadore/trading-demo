@@ -38,5 +38,11 @@ public class DummyRepositoryTest {
 
         assertTrue(candle instanceof Candle);
         assertThat(Double.toString(candle.getClosePrice()), matchesPattern("^[0-9]+\\.?[0-9]*$"));
+        assertThat(Double.toString(candle.getOpenPrice()), matchesPattern("^[0-9]+\\.?[0-9]*$"));
+        assertThat(Double.toString(candle.getMaximumPrice()), matchesPattern("^[0-9]+\\.?[0-9]*$"));
+        assertThat(Double.toString(candle.getMinimumPrice()), matchesPattern("^[0-9]+\\.?[0-9]*$"));
+        assertThat(Long.toString(candle.getDuration()), matchesPattern("^[0-9]+$"));
+        assertThat(candle.getSymbol(), matchesPattern("^\\w$"));
+        assertThat(new SimpleDateFormat("yyyy-MM-dd").format(candle.getOpenTime()), matchesPattern("([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))"));
     }
 }
