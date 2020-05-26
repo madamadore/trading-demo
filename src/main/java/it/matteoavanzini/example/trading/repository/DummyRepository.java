@@ -6,6 +6,6 @@ import java.util.List;
 import it.matteoavanzini.example.trading.model.Candle;
 
 public interface DummyRepository {
-    List<Candle> getCandles(Date fromDateIncluded, Date toDateExcluded);
-    Candle getCandle(Date openTime);
+    List<Candle> getCandles(String symbol, Date fromDateIncluded, Date toDateExcluded);
+    Candle getCandle(String symbol, Date openTime);
 }
