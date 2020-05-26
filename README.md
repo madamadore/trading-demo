@@ -8,7 +8,7 @@ that is an object with 4 different prices, a time value and a _length_.
 
 For simplicity, **in this projet all candles has the fixed _length_ (duration) of 24 hours**.
 
-![Example of candles](https://github.com/madamadore/trading-demo/blob/master/candle-sample.png?raw=true)
+![Example of candles](https://github.com/madamadore/trading-demo/blob/master/images/candle-sample.png?raw=true)
 
 ## Use Case
 
