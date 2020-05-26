@@ -12,4 +12,9 @@ For simplicity, **in this projet all candles has the fixed _length_ (duration) o
 
 ## Use Case
 
+A User will be able to:
+
+- GET a list of candles of a particular asset (_symbol_), between dates
+- Login to the sytem (for future development)
+
 ![Very simple Use-Case](https://github.com/madamadore/trading-demo/blob/master/images/use-case.jpg?raw=true)
