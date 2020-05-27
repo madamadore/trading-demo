@@ -42,7 +42,7 @@ public class CandleControllerTest extends TradingIntegrationsTests {
     WebApplicationContext webApplicationContext;
 
     @Before
-    protected void setUp() {
+    public void setUp() {
       mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
     
