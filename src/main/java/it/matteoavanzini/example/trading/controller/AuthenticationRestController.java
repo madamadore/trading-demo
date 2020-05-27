@@ -39,20 +39,21 @@ public class AuthenticationRestController {
     private JwtTokenUtil jwtTokenUtil;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response) throws Exception {
+    public JwtAuthenticationResponse createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, 
+                                                        HttpServletResponse response) throws Exception {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getUsername(),
                         authenticationRequest.getPassword()
                 )
         );
-        
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
         // Genero Token
         final String token = jwtTokenUtil.generateToken(authentication);
         response.setHeader(tokenHeader, token);
         // Ritorno il token
-        return ResponseEntity.ok(new JwtAuthenticationResponse(authentication.getName(), authentication.getAuthorities()));
+        return new JwtAuthenticationResponse(authentication.getName(), authentication.getAuthorities());
     }
 
     @RequestMapping(value = "protected/refresh-token", method = RequestMethod.GET)

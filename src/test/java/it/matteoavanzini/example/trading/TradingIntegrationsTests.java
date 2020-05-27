@@ -17,19 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = TradingApplication.class)
-@WebAppConfiguration
 public abstract class TradingIntegrationsTests {
-
-   protected MockMvc mvc;
-
-   @Autowired
-   WebApplicationContext webApplicationContext;
-
-   protected void setUp() {
-      mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-   }
 
    protected String mapToJson(Object obj) throws JsonProcessingException {
       ObjectMapper objectMapper = new ObjectMapper();
