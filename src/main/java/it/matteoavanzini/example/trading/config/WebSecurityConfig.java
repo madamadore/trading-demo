@@ -1,6 +1,8 @@
 package it.matteoavanzini.example.trading.config;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +13,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -19,14 +22,37 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import it.matteoavanzini.example.trading.model.JwtUser;
+import it.matteoavanzini.example.trading.repository.UserRepository;
+import it.matteoavanzini.example.trading.service.UserService;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	@Bean
+    
+    @Autowired
+    UserService userDetailsService;
+
+    @Autowired 
+    UserRepository userRepository;
+  
+    @Bean
 	public AuthenticationManager customAuthenticationManager() throws Exception {
 		return authenticationManager();
 	}
+
+    void addUsers() {
+        List<GrantedAuthority> roles = new ArrayList<>();
+        roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        JwtUser admin = new JwtUser("admin", passwordEncoder().encode("admin"), roles, true);
+        userRepository.save(admin);
+    }
+
+	@Override
+    public void configure(AuthenticationManagerBuilder builder) throws Exception {
+        addUsers();
+        builder.userDetailsService(userDetailsService);
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -38,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new JwtAuthenticationTokenFilter();
     }
 
-   // configurazione Cors per poter consumare le api restful con richieste ajax
+    // configurazione Cors per poter consumare le api restful con richieste ajax
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -65,18 +91,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
 
         httpSecurity.headers().cacheControl();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .inMemoryAuthentication()
-            .withUser("user")
-            .password(passwordEncoder().encode("user"))
-            .roles("USER")
-            .and()
-            .withUser("admin")
-            .password(passwordEncoder().encode("admin"))
-            .roles("ADMIN");
     }
 }

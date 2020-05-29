@@ -4,11 +4,17 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class JwtUser implements UserDetails {
 
+    @Id
+    private String id;
+
+    @Indexed(unique=true)
     private final String username;
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;

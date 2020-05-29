@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ErrorController {
     
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<String> badCredentialsError() {
+    public ResponseEntity<String> badCredentialsError(Exception err) {
         return ResponseEntity.badRequest().body("Bad credentials");
     }
 }
