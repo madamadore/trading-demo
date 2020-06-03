@@ -1,6 +1,5 @@
 package it.matteoavanzini.example.trading.controller;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.text.MatchesPattern.matchesPattern;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,13 +9,11 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +33,7 @@ import org.springframework.web.context.WebApplicationContext;
 import it.matteoavanzini.example.trading.TradingApplication;
 import it.matteoavanzini.example.trading.TradingIntegrationsTests;
 import it.matteoavanzini.example.trading.config.JwtTokenUtil;
+import it.matteoavanzini.example.trading.exception.OrderNotOwnerException;
 import it.matteoavanzini.example.trading.model.Operation;
 import it.matteoavanzini.example.trading.model.Order;
 import it.matteoavanzini.example.trading.model.http.ListOrderRequest;
@@ -126,6 +124,20 @@ public class OrderControllerTest extends TradingIntegrationsTests {
         assertTrue(order instanceof Order);
         assertThat(Double.toString(order.getSinglePrice()), matchesPattern("^[0-9]+\\.?[0-9]*$"));
         assertEquals(order.getId(), 1L);
+    }
+
+    @Test(expected = OrderNotOwnerException.class)
+    public void testGetOrderWithWrongUser() throws Exception {
+        String inputJson = "{\"id\":\"1\"}";
+        String token = jwtTokenUtil.generateToken(userService.loadUserByUsername("user"));
+
+        RequestBuilder request = get("/api/v1/order/get")
+                                .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                                .header("Authorization", token)
+                                .content(inputJson);
+        MvcResult result = mvc.perform(request)
+                                .andExpect(status().is4xxClientError())
+                                .andReturn();
     }
 
     @Test

@@ -46,6 +46,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         JwtUser admin = new JwtUser("admin", passwordEncoder().encode("admin"), roles, true);
         userRepository.save(admin);
+
+        roles = new ArrayList<>();
+        roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+        JwtUser user = new JwtUser("user", passwordEncoder().encode("user"), roles, true);
+        userRepository.save(user);
     }
 
     @Bean
