@@ -52,7 +52,6 @@ public class JwtUser implements UserDetails {
         return true;
     }
 
-
     @JsonIgnore
     @Override
     public String getPassword() {

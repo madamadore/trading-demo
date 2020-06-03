@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +23,14 @@ public class OrderController {
     OrderService orderService;
     
     @PutMapping("/add")
-    public Order createOrder(@RequestBody PutOrderRequest request) {
+    public Order createOrder(@RequestBody PutOrderRequest request, Principal principal) {
         String symbol = request.getSymbol();
         Operation operation = request.getOperation();
         int quantity = request.getQuantity();
+
+        UserDetails user = (UserDetails) principal;
         
-        Order order = orderService.createOrder(symbol, operation, quantity);
+        Order order = orderService.createOrder(user, symbol, operation, quantity);
         return order;
     }
 }

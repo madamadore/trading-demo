@@ -22,17 +22,10 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     UserService userService;
 
-    @Autowired 
-    Principal principal;
-
     @Override
-    public Order createOrder(String symbol, Operation op, int quantity) {
+    public Order createOrder(UserDetails userDetails, String symbol, Operation op, int quantity) {
         Order order = new Order();
         double singlePrice = getSinglePrice();
-        
-        // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
-        //                                             .getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails) principal;
 
         double total = singlePrice * quantity;
         double feeValue = ((total * fee) / 100);
