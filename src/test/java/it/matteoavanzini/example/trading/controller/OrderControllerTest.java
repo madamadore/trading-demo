@@ -135,9 +135,9 @@ public class OrderControllerTest extends TradingIntegrationsTests {
                                 .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                                 .header("Authorization", token)
                                 .content(inputJson);
-        MvcResult result = mvc.perform(request)
-                                .andExpect(status().is4xxClientError())
-                                .andReturn();
+        mvc.perform(request)
+            .andExpect(status().is4xxClientError())
+            .andReturn();
     }
 
     @Test

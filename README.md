@@ -25,4 +25,8 @@ A User will be able to:
 - GET a list of candles of a particular asset (_symbol_), between dates
 - Login to the sytem (for future development)
 
-![Very simple Use-Case](https://github.com/madamadore/trading-demo/blob/master/images/use-case.png?raw=true)
+![Simple Use-Case](https://github.com/madamadore/trading-demo/blob/master/images/use-case.png?raw=true)
+
+## Classes
+
+![Classes involved](https://github.com/madamadore/trading-demo/blob/master/images/classes.png?raw=true)
