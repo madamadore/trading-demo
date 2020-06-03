@@ -1,5 +1,7 @@
 package it.matteoavanzini.example.trading.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PutMapping;

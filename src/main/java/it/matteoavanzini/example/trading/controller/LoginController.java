@@ -25,9 +25,9 @@ import it.matteoavanzini.example.trading.model.http.JwtAuthenticationRequest;
 import it.matteoavanzini.example.trading.model.http.JwtAuthenticationResponse;
 
 @RestController
-public class AuthenticationRestController {
+public class LoginController {
     
-    private static final Logger logger = LoggerFactory.getLogger(AuthenticationRestController.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Value("${jwt.header}")
     private String tokenHeader;

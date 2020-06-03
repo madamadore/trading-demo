@@ -48,12 +48,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         userRepository.save(admin);
     }
 
-	@Override
-    public void configure(AuthenticationManagerBuilder builder) throws Exception {
-        addUsers();
-        builder.userDetailsService(userDetailsService);
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -78,6 +72,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(AuthenticationManagerBuilder builder) throws Exception {
+        addUsers();
+        builder.userDetailsService(userDetailsService);
+    }
+
+    @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf().disable()
@@ -86,7 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.cors().and()
 				.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-				.antMatchers("/login", "/api/v1/candle/*")
+                .antMatchers("/login", "/api/v1/candle/*")
 				.permitAll()
                 .anyRequest().authenticated();
 
